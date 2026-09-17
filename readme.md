@@ -128,6 +128,63 @@ cd backend
 npm run dev
 ```
 
+## Backend Build and Deployment
+
+The backend is a plain Node.js application, so it does not require a transpilation or bundling step. Its production build validates the JavaScript syntax, while the deployable application consists of the `backend` folder and its production dependencies.
+
+Run the backend build locally:
+
+```powershell
+cd backend
+npm run build
+```
+
+The expected output is a successful Node.js syntax check. Start the production server with:
+
+```powershell
+npm start
+```
+
+### Deploying to a Node.js Platform
+
+For Render, Railway, Fly.io, or a similar service, configure:
+
+- **Root directory:** `backend`
+- **Build command:** `npm ci && npm run build`
+- **Start command:** `npm start`
+- **Node version:** 20 or newer
+- **Environment variables:** `DATABASE_URL` and optionally `PORT`
+
+### Vercel-specific setup
+
+This backend includes `backend/api/index.js` and `backend/vercel.json` so Express can run as a Vercel serverless function. When creating the Vercel project:
+
+- Set the project root directory to `backend`.
+- Deploy the project again after adding `api/index.js` and `vercel.json`.
+- Add `DATABASE_URL` in the Vercel project environment variables for the Production environment.
+- Use the public Production URL, not a Preview URL protected by login.
+- In **Settings > Deployment Protection**, disable protection for the API project if the frontend must call it without authentication.
+
+The API URL used by the frontend must include the protocol and endpoint, for example:
+
+```text
+https://YOUR-PRODUCTION-DOMAIN.vercel.app/api/users
+```
+
+If this URL redirects to `vercel.com/login`, the deployment is protected and the browser will not receive the API JSON response.
+
+The platform usually assigns `PORT` automatically. The server already reads that value and falls back to port `3000` for local development. Do not upload `backend/.env`; define the variables in the platform's secret or environment-variable settings.
+
+After deployment, verify the service using:
+
+```text
+https://YOUR-BACKEND-DOMAIN/api/health
+https://YOUR-BACKEND-DOMAIN/api/db-check
+https://YOUR-BACKEND-DOMAIN/api/users
+```
+
+If the frontend is deployed separately, update `frontend/src/app/services/usuario.ts` so its API URL points to the public backend URL instead of `http://localhost:3000/api/users`, then rebuild the frontend.
+
 ## API Endpoints
 
 | Method | Endpoint | Description |

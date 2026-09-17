@@ -50,10 +50,6 @@ app.get('/api/db-check', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
-
 app.get('/api/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT id, nombre, correo, edad FROM usuarios');
@@ -64,3 +60,11 @@ app.get('/api/users', async (req, res) => {
             error: 'Internal server error', });
     }     
 });
+
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+}
+
+module.exports = app;
