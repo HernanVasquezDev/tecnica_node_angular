@@ -6,7 +6,7 @@
       <p class="subtitle">Personas registradas en la plataforma</p>
     </div>
     <div class="record-count" aria-label="Cantidad de usuarios">
-      <strong>{{ usuarios.length }}</strong>
+      <strong>{{ usuarios().length }}</strong>
       <span>registros</span>
     </div>
   </section>
@@ -17,7 +17,7 @@
       <span class="status-dot">Actualizado</span>
     </div>
 
-    @if (usuarios.length > 0) {
+    @if (usuarios().length > 0) {
       <div class="table-scroll">
         <table>
           <thead>
@@ -30,7 +30,7 @@
           </thead>
 
           <tbody>
-            @for (usuario of usuarios; track usuario.id) {
+            @for (usuario of usuarios(); track usuario.id) {
               <tr>
                 <td><span class="user-id">#{{ usuario.id }}</span></td>
                 <td class="name-cell">{{ usuario.nombre }}</td>
