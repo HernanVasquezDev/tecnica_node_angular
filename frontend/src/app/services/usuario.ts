@@ -19,7 +19,7 @@ export class UsuarioService {
     private http = inject(HttpClient);
 
     // The base URL for the backend API that provides user data.
-    private apiUrl = 'https://backend-l49q3ru3l-nachjv19s-projects.vercel.app/api/users';
+    private apiUrl = 'https://backend-l49q3ru3l-nachjv19s-projects.vercel.app/api/users' || 'http://localhost:3000/api/users' ;
 
     // This method fetches the list of users from the backend API.
     getUsuarios(): Observable<UsuarioModel[]> {
