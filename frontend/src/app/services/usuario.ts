@@ -25,6 +25,7 @@ export class UsuarioService {
     getUsuarios(): Observable<UsuarioModel[]> {
         // Making a GET request to the backend API to retrieve user data.
         return this.http.get<UsuariosResponse>(this.apiUrl).pipe(
+            // Mapping the response to extract the 'result' property, which contains the array of users.
             map((response) => response.result),
         );
     }
